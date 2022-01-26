@@ -1,0 +1,27 @@
+.inputField {
+  border: 1px solid #5f80be;
+  border-radius: 6px;
+  padding: 10px 15px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 300;
+  
+  transition: border-color, box-shadow .3s linear;
+
+
+  &:focus {
+    outline: none;
+    box-shadow: inset 0 0 0 2px #5f80be;
+  }
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__text {
+    font-family: inherit;
+    margin-bottom: 5px;
+  }
+}

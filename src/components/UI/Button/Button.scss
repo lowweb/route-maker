@@ -1,0 +1,28 @@
+.button {
+  border-style: none;
+  border-width: 0px;
+  background-color: transparent;
+  height: auto;
+  display: flex;
+
+  &--round-del {
+
+    &:focus {
+      outline: none;
+      & svg path{
+        fill: #E63946;
+      }
+
+    }
+    & svg path{
+      fill: rgb(158, 158, 158);
+      transition: fill .3s ease-in-out;
+    }
+  &:hover {
+    & svg path{
+      fill: #E63946;
+    }
+  }
+  }
+    
+}

@@ -1,8 +1,11 @@
 
 function App() {
   return (
-    <div>
-
+    <div className="page__wraper">
+      <aside className='sidebar'>
+  
+      </aside>
+     
     </div>
   );
 }
