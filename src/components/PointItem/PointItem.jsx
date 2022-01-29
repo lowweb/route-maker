@@ -5,11 +5,21 @@ import './PointItem.scss'
 const PointItem = (props) => {
   return (
     <li className="point-item"
+      onDragStart={props.onDragStart}
+      onDragLeave={props.onDragLeave}
+      onDragEnd={props.onDragEnd}
+      onDragOver={props.onDragOver}
+      onDrop={props.onDrop}
+      draggable={props.draggable}
       number={props.number}
     >
       <div className="point-item__number">{props.number}</div>
       <div className='point-item__cap'>
-        { props.point.name}
+        { props.placemarkdraggin.state && props.number===props.placemarkdraggin.number
+          ? 'Точка на карте перемещается...'
+          : props.point.name
+        }
+       
       </div>
       <Button onClick={()=>props.remove(props.point)} className="point-item__button button button--round-del">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">

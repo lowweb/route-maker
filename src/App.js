@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-import InputField from "./components/UI/InputField/InputField";
-import PointsList from './components/PointsList/PointsList';
+import React, { useEffect, useRef, useState } from 'react';
 import { YMaps, Map, Placemark, Polyline } from "react-yandex-maps";
+import './styles/main.scss';
+import InputField from './components/UI/InputField/InputField.jsx';
+import PointsList from './components/PointsList/PointsList';
 import { useInitInputSuggest } from './hooks/useInitInputSuggest';
+
 
 
 function App() {
@@ -11,10 +13,9 @@ function App() {
   const [placemarkDraggin , setPlacemarkDraggin] = useState({})
   const [centerOfMap, setCenterOfMap] = useState([53.13, 107.45]);
   const mapRef = useRef(null); 
-
   const [initSuggest,suggestGeoData] = useInitInputSuggest(mapRef)
-
-  useEffect (()=> {
+  
+  useEffect(()=> {
     if( Object.keys(suggestGeoData).length > 0) {
       const newPoint = {
         id: Date.now(),
@@ -42,16 +43,17 @@ function App() {
     <div className="page__wraper">
       <aside className='sidebar'>
         <InputField
-            id="suggestElement" 
-            placeholder="Адрес или объект"
+          id="suggestElement" 
+          placeholder="Адрес или объект"
         />
-        <PointsList
-            setPoints={setPoints} 
-            remove={removePoints} 
-            points={points} 
+        <PointsList 
+          setPoints={setPoints} 
+          remove={removePoints} 
+          points={points} 
+          placemarkDraggin={placemarkDraggin}
         />
       </aside>
-     <YMaps
+      <YMaps 
         query={{ 
           load: "package.full",
           apikey: "ac684a05-e3c8-4777-a071-fcc67be621b8",
@@ -99,7 +101,29 @@ function App() {
                 hideIconOnBalloonOpen: false,
                 hasHint: true,
                 openBalloonOnClick: true, 
-              }}  
+              }}
+              onDragStart = { (e) => {
+                const pointNumber = e.get("target").properties.get('iconContent')
+                setPlacemarkDraggin({state:true, number: pointNumber})
+                setLineItems([])
+              }}
+              onDragEnd = { (e, index) => {
+                const geoObject = e.get("target")
+                const newPointCoord = geoObject.geometry.getCoordinates()
+                const pointNumber = geoObject.properties.get('iconContent')
+                const ymaps = mapRef.current
+              
+                ymaps.geocode(newPointCoord)
+                .then(function (res) {
+                  let firstGeoObject = res.geoObjects.get(0);
+                    setPoints(points.map((point,index)=> 
+                      index + 1 === pointNumber 
+                      ? {...point, name: firstGeoObject.getAddressLine(), coord: newPointCoord} 
+                      : point))
+                      setPlacemarkDraggin({state:false, number: null})
+                })
+                .catch((e) => e)
+              }}   
             /> 
           ))}
         </Map>
