@@ -86,12 +86,20 @@ function App() {
           />
           {points.map((item,index) => (
             <Placemark
+              className="place"
               key={item.id}
               geometry={item.coord}
               properties= {{
                 balloonContent: item.name,
                 iconContent: index+1,
+                // balloonContentBody: [
+                //   `<div class="baloon-content">
+                //         <a href={link} class="baloon-content__title">{name}</a>
+                //         <div class="baloon-content__body">${item.name}</div>
+                //     </div>
+                //     `].join("")
               }}
+
               options={{
                 preset: 'islands#blueCircleIcon',
                 iconColor: '#3b5998',

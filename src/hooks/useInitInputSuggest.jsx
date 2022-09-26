@@ -10,11 +10,7 @@ export const useInitInputSuggest = () => {
     }
     });
 
-    //////////////////////////////
-    // searchControl.events.add('load', function (event) {
-    //   // inputRef.current.value=''
-    //   console.log('load')
-    //   })
+ 
     const suggestView = new ymaps.SuggestView(suggestElement,{
     });
     
